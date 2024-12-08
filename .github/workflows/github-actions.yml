@@ -1,13 +1,16 @@
-name: Run Pytest on Push
+name: Run Tests on Multiple OS
 
 on:
   push:
     branches:
-      - '**'  # Triggers the workflow on push to any branch
+      - '**'
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
     - name: Checkout code
@@ -16,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.13.1'  # Specify the Python version you need
+        python-version: 3.13.1
 
     - name: Install dependencies
       run: |
